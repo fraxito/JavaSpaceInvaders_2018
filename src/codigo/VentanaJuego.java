@@ -29,6 +29,7 @@ public class VentanaJuego extends javax.swing.JFrame {
     int contador = 0;
     Nave miNave = new Nave(ANCHOPANTALLA);
     Disparo miDisparo = new Disparo(ALTOPANTALLA);
+    Marciano miMarciano = new Marciano(ANCHOPANTALLA);
     
     //bucle de animación del juego
     //en este caso, es un hilo de ejecución nuevo que se encarga
@@ -48,6 +49,7 @@ public class VentanaJuego extends javax.swing.JFrame {
     public VentanaJuego() {
         initComponents();
         
+   
         //hay que quitar la opción "resizable" del jPanel para que se ajuste 
         //correctamente Creditos: Junior
         setSize(ANCHOPANTALLA , ALTOPANTALLA  );
@@ -55,6 +57,10 @@ public class VentanaJuego extends javax.swing.JFrame {
         buffer.createGraphics();
         miNave.x = ANCHOPANTALLA/2 - miNave.imagen.getWidth(this)/2;
         miNave.y = ALTOPANTALLA - miNave.imagen.getHeight(this) - 40;
+        
+        
+        miMarciano.x = 10;
+        miMarciano.y = 10; 
         
         //inicio el temporizador
         temporizador.start();
@@ -72,14 +78,30 @@ public class VentanaJuego extends javax.swing.JFrame {
         
         ////////////////////////////////////////////////////////////////////////
         //redibujamos cada elemento en su nueva posición en el buffer
-         g2.drawImage(miNave.imagen, miNave.x, miNave.y, null);
+        
                
-        //contador++;
+        contador++;
         miDisparo.mueve();
         g2.drawImage(miDisparo.imagen, miDisparo.getX(), miDisparo.getY(), null);
         //pinto la nave
+        
         miNave.mueve();
-
+        g2.drawImage(miNave.imagen, miNave.x, miNave.y, null);
+        
+        miMarciano.mueve();
+        
+        if (contador < 50){
+            g2.drawImage(miMarciano.imagen, miMarciano.x, miMarciano.y, null);
+        }
+        else if (contador < 100){
+            g2.drawImage(miMarciano.imagen2, miMarciano.x, miMarciano.y, null);
+        }
+        else contador = 0;
+        
+        if (miMarciano.x == ANCHOPANTALLA-miMarciano.imagen.getWidth(null) || miMarciano.x == 0){
+            miMarciano.direccion = !miMarciano.direccion;
+            miMarciano.y += miMarciano.imagen.getHeight(null);
+        }
         
         ////////////////////////////////////////////////////////////////////////
         
