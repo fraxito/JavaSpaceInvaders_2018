@@ -95,7 +95,10 @@ public class VentanaJuego extends javax.swing.JFrame {
                 else contador = 0;
                 if (listaMarcianos[i][j].x == ANCHOPANTALLA - listaMarcianos[i][j].imagen.getWidth(null) || listaMarcianos[i][j].x == 0) {
                     direccionMarcianos = !direccionMarcianos;
-                    listaMarcianos[i][j].y += listaMarcianos[i][j].imagen.getHeight(null);
+                    for (int k=0; k<filasMarcianos; k++)
+                        for (int m=0; m<columnasMarcianos; m++){
+                            listaMarcianos[k][m].y += listaMarcianos[k][m].imagen.getHeight(null);
+                        }
                 }
 
             }
