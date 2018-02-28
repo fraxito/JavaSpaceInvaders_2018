@@ -44,7 +44,7 @@ public class VentanaJuego extends javax.swing.JFrame {
     boolean direccionMarcianos = false; 
     
     BufferedImage plantilla = null;
-    
+    BufferedImage[] imagenes = new BufferedImage[30]; 
     
     
     //bucle de animación del juego
@@ -69,6 +69,12 @@ public class VentanaJuego extends javax.swing.JFrame {
         }
         catch (IOException e){}
         
+        for (int i=0; i < 6; i++){
+            for (int j=0; j<5; j++){
+                imagenes[i*5 + j] = plantilla.getSubimage(j*32, i*32, 32, 32);
+            }
+        }
+        
         //hay que quitar la opción "resizable" del jPanel para que se ajuste 
         //correctamente Creditos: Junior
         setSize(ANCHOPANTALLA , ALTOPANTALLA  );
@@ -82,9 +88,11 @@ public class VentanaJuego extends javax.swing.JFrame {
         for (int i=0; i<filasMarcianos; i++){
             for (int j=0; j<columnasMarcianos; j++){
                 listaMarcianos[i][j] = new Marciano(ANCHOPANTALLA);
+                listaMarcianos[i][j].imagen = imagenes[2];
+                listaMarcianos[i][j].imagen2 = imagenes[3];
                 listaMarcianos[i][j].x = j* (15 + listaMarcianos[i][j].imagen.getWidth(null));
                 listaMarcianos[i][j].y = i* (10 + listaMarcianos[i][j].imagen.getHeight(null));
-                
+
             }
         }
         
