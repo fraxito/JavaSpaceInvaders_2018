@@ -10,11 +10,14 @@ package codigo;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import javax.swing.Timer;
 
 /**
@@ -40,6 +43,10 @@ public class VentanaJuego extends javax.swing.JFrame {
     //dirección en la que se mueve el grupo de marcianos
     boolean direccionMarcianos = false; 
     
+    BufferedImage plantilla = null;
+    
+    
+    
     //bucle de animación del juego
     //en este caso, es un hilo de ejecución nuevo que se encarga
     //de refrescar el contenido de la pantalla
@@ -57,7 +64,10 @@ public class VentanaJuego extends javax.swing.JFrame {
      */
     public VentanaJuego() {
         initComponents();
-        
+        try{
+            plantilla = ImageIO.read(getClass().getResource("/imagenes/invaders2.png"));
+        }
+        catch (IOException e){}
         
         //hay que quitar la opción "resizable" del jPanel para que se ajuste 
         //correctamente Creditos: Junior
@@ -146,7 +156,9 @@ public class VentanaJuego extends javax.swing.JFrame {
         
                
         contador++;
-        miDisparo.mueve();
+        if (miDisparo.isDisparado()){
+            miDisparo.mueve();
+        }
         g2.drawImage(miDisparo.imagen, miDisparo.getX(), miDisparo.getY(), null);
         //pinto la nave
         
