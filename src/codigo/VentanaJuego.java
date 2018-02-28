@@ -83,25 +83,27 @@ public class VentanaJuego extends javax.swing.JFrame {
         
     }
 
-    private void pintaMarcianos(Graphics2D _g2){
-        for (int i=0; i<filasMarcianos; i++){
-            for (int j=0; j<columnasMarcianos; j++){
-                listaMarcianos[i][j].mueve(direccionMarcianos);
-                if (contador < 50){
-                    _g2.drawImage(listaMarcianos[i][j].imagen, listaMarcianos[i][j].x, listaMarcianos[i][j].y, null);
-                }
-                else if (contador < 100){
-                    _g2.drawImage(listaMarcianos[i][j].imagen2, listaMarcianos[i][j].x, listaMarcianos[i][j].y, null);
-                }
-                else contador = 0;
-                if (listaMarcianos[i][j].x == ANCHOPANTALLA - listaMarcianos[i][j].imagen.getWidth(null) || listaMarcianos[i][j].x == 0) {
-                    direccionMarcianos = !direccionMarcianos;
-                    for (int k=0; k<filasMarcianos; k++)
-                        for (int m=0; m<columnasMarcianos; m++){
-                            listaMarcianos[k][m].y += listaMarcianos[k][m].imagen.getHeight(null);
+    private void pintaMarcianos(Graphics2D _g2) {
+        for (int i = 0; i < filasMarcianos; i++) {
+            for (int j = 0; j < columnasMarcianos; j++) {
+                if (listaMarcianos[i][j].vida) {
+                    listaMarcianos[i][j].mueve(direccionMarcianos);
+                    if (contador < 50) {
+                        _g2.drawImage(listaMarcianos[i][j].imagen, listaMarcianos[i][j].x, listaMarcianos[i][j].y, null);
+                    } else if (contador < 100) {
+                        _g2.drawImage(listaMarcianos[i][j].imagen2, listaMarcianos[i][j].x, listaMarcianos[i][j].y, null);
+                    } else {
+                        contador = 0;
+                    }
+                    if (listaMarcianos[i][j].x == ANCHOPANTALLA - listaMarcianos[i][j].imagen.getWidth(null) || listaMarcianos[i][j].x == 0) {
+                        direccionMarcianos = !direccionMarcianos;
+                        for (int k = 0; k < filasMarcianos; k++) {
+                            for (int m = 0; m < columnasMarcianos; m++) {
+                                listaMarcianos[k][m].y += listaMarcianos[k][m].imagen.getHeight(null);
+                            }
                         }
+                    }
                 }
-
             }
         }
     }
@@ -113,16 +115,18 @@ public class VentanaJuego extends javax.swing.JFrame {
                 miDisparo.imagen.getWidth(null), miDisparo.imagen.getHeight(null));
         for (int i = 0; i < filasMarcianos; i++) {
             for (int j = 0; j < columnasMarcianos; j++) {
-                rectanguloMarciano.setFrame(listaMarcianos[i][j].x,
-                                            listaMarcianos[i][j].y,
-                                            listaMarcianos[i][j].imagen.getWidth(null),
-                                            listaMarcianos[i][j].imagen.getHeight(null));
-                if (rectanguloDisparo.intersects(rectanguloMarciano)){
-                    //si esto es true es que los dos rectangulos han chocado en algun punto
-                    listaMarcianos[i][j].y = 2000;
-                     //recolocamos al marciano y al disparo muy por debajo de la pantalla
-                    miDisparo.setY(2000);
-                    miDisparo.setDisparado(false);
+                if (listaMarcianos[i][j].vida) {
+                    rectanguloMarciano.setFrame(listaMarcianos[i][j].x,
+                            listaMarcianos[i][j].y,
+                            listaMarcianos[i][j].imagen.getWidth(null),
+                            listaMarcianos[i][j].imagen.getHeight(null));
+                    if (rectanguloDisparo.intersects(rectanguloMarciano)) {
+                        //si esto es true es que los dos rectangulos han chocado en algun punto
+                        listaMarcianos[i][j].vida = false;
+                        //recolocamos al marciano y al disparo muy por debajo de la pantalla
+                        miDisparo.setY(2000);
+                        miDisparo.setDisparado(false);
+                    }
                 }
             }
         }

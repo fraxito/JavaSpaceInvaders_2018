@@ -21,6 +21,7 @@ public class Marciano {
 
     private int anchoPantalla;
 
+    public boolean vida = true;
     
 
     public Marciano(int _anchoPantalla) {
