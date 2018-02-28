@@ -13,6 +13,7 @@ import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import javax.swing.Timer;
 
@@ -105,6 +106,29 @@ public class VentanaJuego extends javax.swing.JFrame {
         }
     }
     
+    private void chequeaColision(){
+        Rectangle2D.Double rectanguloMarciano = new Rectangle2D.Double();
+        Rectangle2D.Double rectanguloDisparo = new Rectangle2D.Double();
+        rectanguloDisparo.setFrame(miDisparo.getX(), miDisparo.getY(),
+                miDisparo.imagen.getWidth(null), miDisparo.imagen.getHeight(null));
+        for (int i = 0; i < filasMarcianos; i++) {
+            for (int j = 0; j < columnasMarcianos; j++) {
+                rectanguloMarciano.setFrame(listaMarcianos[i][j].x,
+                                            listaMarcianos[i][j].y,
+                                            listaMarcianos[i][j].imagen.getWidth(null),
+                                            listaMarcianos[i][j].imagen.getHeight(null));
+                if (rectanguloDisparo.intersects(rectanguloMarciano)){
+                    //si esto es true es que los dos rectangulos han chocado en algun punto
+                    listaMarcianos[i][j].y = 2000;
+                     //recolocamos al marciano y al disparo muy por debajo de la pantalla
+                    miDisparo.setY(2000);
+                    miDisparo.setDisparado(false);
+                }
+            }
+        }
+
+    }
+    
     private void bucleDelJuego(){
         //el bucle de animación gobierna el redibujado de los objetos en 
         //el jpanel1
@@ -127,20 +151,7 @@ public class VentanaJuego extends javax.swing.JFrame {
         
         pintaMarcianos(g2);
         
-//        miMarciano.mueve();
-//        
-//        if (contador < 50){
-//            g2.drawImage(miMarciano.imagen, miMarciano.x, miMarciano.y, null);
-//        }
-//        else if (contador < 100){
-//            g2.drawImage(miMarciano.imagen2, miMarciano.x, miMarciano.y, null);
-//        }
-//        else contador = 0;
-//        
-//        if (miMarciano.x == ANCHOPANTALLA-miMarciano.imagen.getWidth(null) || miMarciano.x == 0){
-//            miMarciano.direccion = !miMarciano.direccion;
-//            miMarciano.y += miMarciano.imagen.getHeight(null);
-//        }
+        chequeaColision();
         
         ////////////////////////////////////////////////////////////////////////
         
