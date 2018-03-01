@@ -64,33 +64,43 @@ public class VentanaJuego extends javax.swing.JFrame {
      */
     public VentanaJuego() {
         initComponents();
+        //cargo la plantilla con todos los sprites de los marcianos
         try{
             plantilla = ImageIO.read(getClass().getResource("/imagenes/invaders2.png"));
         }
         catch (IOException e){}
         
+        //guardo cada sprite en un Image individual. De esta forma es más fácil dibujarlos
+        //dependiendo de lo que se necesite
         for (int i=0; i < 5; i++){
             for (int j=0; j<4; j++){
-                imagenes[i*4 + j] = plantilla.getSubimage(j*64, i*64, 64, 64);
+                //corto el trozo de 64x64 que corresponde a ese marciano
+                imagenes[i*4 + j] = plantilla.getSubimage(j*64+1, i*64+1, 64, 64);
+                //cambio el tamaño a 32x32
                 imagenes[i*4 + j] = imagenes[i*4 + j].getScaledInstance(32, 32, Image.SCALE_SMOOTH);
             }
         }
+        
+        imagenes[20] = plantilla.getSubimage(0, 320, 66, 32);
+        imagenes[21] = plantilla.getSubimage(66, 320, 64, 32);
         
         //hay que quitar la opción "resizable" del jPanel para que se ajuste 
         //correctamente Creditos: Junior
         setSize(ANCHOPANTALLA , ALTOPANTALLA  );
         buffer = (BufferedImage) jPanel1.createImage(ANCHOPANTALLA, ALTOPANTALLA);
         buffer.createGraphics();
+        miNave.imagen = imagenes[20];
         miNave.x = ANCHOPANTALLA/2 - miNave.imagen.getWidth(this)/2;
         miNave.y = ALTOPANTALLA - miNave.imagen.getHeight(this) - 40;
+        
         
         
         //creamos el array de marcianos
         for (int i=0; i<filasMarcianos; i++){
             for (int j=0; j<columnasMarcianos; j++){
                 listaMarcianos[i][j] = new Marciano(ANCHOPANTALLA);
-                listaMarcianos[i][j].imagen = imagenes[4];
-                listaMarcianos[i][j].imagen2 = imagenes[5];
+                listaMarcianos[i][j].imagen = imagenes[2*i];
+                listaMarcianos[i][j].imagen2 = imagenes[2*i+1];
                 listaMarcianos[i][j].x = j* (15 + listaMarcianos[i][j].imagen.getWidth(null));
                 listaMarcianos[i][j].y = i* (10 + listaMarcianos[i][j].imagen.getHeight(null));
 
